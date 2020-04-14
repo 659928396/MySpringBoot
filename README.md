@@ -1,2 +1,2 @@
-# git_repository_01
-我的第一git仓库
+# MySpringBoot
+我的SpringBoot专用git仓库
