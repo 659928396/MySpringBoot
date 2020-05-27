@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Title</title>
+</head>
+<body style="margin-left: 20%;margin-right: 20%;">
+
+    <table class="table table-striped">
+        <caption>
+            <a th:href="@{|/user/toMerge|}" >添加记录</a>
+        </caption>
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>姓名</th>
+            <th>出生日期</th>
+            <th>性别</th>
+            <th>住址</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user,status:${userList}">
+            <td th:text="${status.count}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.birthday}"></td>
+            <td th:text="${user.sex}"></td>
+            <td th:text="${user.address}"></td>
+            <td>
+                <a th:href="@{|/user/toMerge?id=${user.id}|}" >修改</a>
+                <a th:href="@{|/user/delete?id=${user.id}|}" >删除</a>
+            </td>
+        </tr>
+        <tr style="text-align: right;">
+            <td colspan="6">
+                <span th:if="${curPage <= 1}">
+                    首页 上一页
+                </span>
+                <span th:if="${curPage > 1}">
+                    <a th:href="@{/index?curPage=1}">首页</a>
+                    <a th:href="@{|/index?curPage=${curPage-1}|}">上一页</a>
+                </span>
+                <span th:text="${curPage}">页码</span>
+                <span th:if="${curPage == pageCount}">
+                    下一页 尾页
+                </span>
+                <span th:if="${curPage < pageCount}">
+                    <a th:href="@{|/index?curPage=${curPage+1}|}">下一页</a>
+                    <a th:href="@{|/index?curPage=${pageCount}|}">尾页</a>
+                </span>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

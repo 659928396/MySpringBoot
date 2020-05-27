@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p th:text="${msg}">展示内容1</p>
+<div th:text="${msg}">展示内容2</div>
+<span th:text="${msg}">展示内容3</span>
+
+<!--标准变量表达式：${object.property}-->
+<p>
+<div style="color:red">标准变量表达式</div>
+<div th:text="${user.name}">姓名</div>
+<div th:text="${user.address}">地址</div>
+<div th:text="${user.email}">邮件</div>
+</p>
+<!--选择变量表达式一：th:object="${object}" 然后th:text="*{property}"-->
+<div th:object="${user}"><!--用p标签不可以，必须用div标签，不然无法显示，很奇怪-->
+    <div style="color:red">选择变量表达式一</div>
+    <div th:text="*{name}">姓名</div>
+    <div th:text="*{address}">地址</div>
+    <div th:text="*{email}">邮件</div>
+</div>
+<!--选择变量表达式二：*{object.property}，与${object.property}效果一样-->
+<p>
+<div style="color:red">选择变量表达式二</div>
+<div th:text="*{user.name}">姓名</div>
+<div th:text="*{user.address}">地址</div>
+<div th:text="*{user.email}">邮件</div>
+</p>
+
+<!--绝对URL-->
+<a href="index.html" th:href="@{'http://localhost:8080/boot/thymeleaf/index/index?userid='+${user.id}}">查看</a>
+<!--相对URL：相对当前页面-->
+<a href="index.html" th:href="@{'boot/thymeleaf/index?userid='+${user.id}}">查看</a>
+<!--相对URL：相对于根路径，第一个斜杠前会自动补充项目上下文-->
+<a href="index.html" th:href="@{'/boot/thymeleaf/index?userid='+${user.id}}">查看</a>
+
+<form action="/boot/thymeleaf/index">...</form>
+<form th:action="@{'/boot/thymeleaf/index/'+${user.id}}">...</form>
+
+<!--循环遍历list类型-->
+<p th:each="user,status:${userList}">
+    <span th:text="${status.count}"></span>
+    <span th:text="${user.name}"></span>||
+    <span th:text="${user.address}"></span>
+</p>
+<!--循环遍历Map类型-->
+<p th:each="map,status:${userMap}">
+    <span th:text="${status.count}"></span>
+    <span th:text="${map.key}"></span>
+    <span th:text="${map.value}"></span>
+</p>
+<!--循环遍历数组类型-->
+<p th:each="value,status:${types}">
+    <span th:text="${status.count}"></span>
+    <span th:text="${value}"></span>
+</p>
+
+<p th:if="${sex eq '1'}">男</p>
+<p th:if="${sex == '0'}">女</p>
+
+<div th:switch="${sex}">
+    <p th:case="'0'">女</p>
+    <p th:case="'1'">男</p>
+    <p th:case="'*'">未知</p>
+</div>
+<script>
+    function hello() {
+        alert("hello");
+    }
+</script>
+<p th:onclick=" 'hello();' " >点击此处</p>
+
+<p th:style=" 'color:red' " >红色</p>
+
+<div th:text="${user.name}">姓名</div>
+<!--等价于-->
+<div th:inline="text">[[${user.name}]]</div>
+
+<script th:inline="javascript">
+    let name = [[${user.name}]];
+    alert(name);
+</script>
+<script  th:inline="none">
+    let name = [[${user.name}]];
+    alert(name);
+</script>
+
+</body>
+</html>
